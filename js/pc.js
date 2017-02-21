@@ -40,38 +40,73 @@ function pc(){
     .attr("class", "tooltip")
     .style("opacity", 0);
 	
-    //Load data
-    d3.csv("data/OECD-better-life-index-hi.csv", function(data) {
+//OBS GAMMAL DATA!!!
+  //   d3.csv("data/OECD-better-life-index-hi.csv", function(data) {
 
-        self.data = data;
+  //       self.data = data;
 
-        // Extract the list of dimensions and create a scale for each.
-        //...
-		var1 = "Personal earnings";
-		var2 = "Quality of support network";
-		var3 = "Student skills";
-		var4 = "Voter turnout";
-		var5 = "Life satisfaction";
+  //       // Extract the list of dimensions and create a scale for each.
+  //       //...
+		// var1 = "Personal earnings";
+		// var2 = "Quality of support network";
+		// var3 = "Student skills";
+		// var4 = "Voter turnout";
+		// var5 = "Life satisfaction";
 		
-		console.log(var1);
+		// console.log(var1);
 		
-        x.domain(dimensions = d3.keys(data[0]).filter(function(d) {
-            return (d == var1 || d == var2 || d == var3 || d == var4 || d == var5)
-				&& [(y[d] = d3.scale.linear()
-                //.domain(d3.extent([0,1]))
-				.domain(d3.extent(data, function(p){return +p[d];}))
-                .range([height, 0]))];
-        }));
+  //       x.domain(dimensions = d3.keys(data[0]).filter(function(d) {
+  //           return (d == var1 || d == var2 || d == var3 || d == var4 || d == var5)
+		// 		&& [(y[d] = d3.scale.linear()
+  //               //.domain(d3.extent([0,1]))
+		// 		.domain(d3.extent(data, function(p){return +p[d];}))
+  //               .range([height, 0]))];
+  //       }));
 
-        draw();
+  //       draw();
+  //   });
+
+
+     //Load IMDB data
+    d3.csv("data/imdb.csv", function(data) {
+
+
+        data.forEach(function(d) {
+
+        d["title"] = +d["title"];
+        d["year"] = +d["year"];
+        d["fn"] = +d["fn"]; // IMDB-code titles01/tt0012349
+        d["imdbRating"] = +d["imdbRating"];
+
+        });
+
+
     });
+
+       //Load Bechdel data
+    d3.csv("data/movies.csv", function(data) {
+
+
+        data.forEach(function(d) {
+
+        d["title"] = +d["title"];
+        d["year"] = +d["year"];
+        d["binary"] = +d["binary"]; //Pass or fail
+        d["domgross"] = +d["domgross"];
+        d["intgross"] = +d["intgross"];
+        d["budget"] = +d["budget"];     
+
+        });
+
+    });
+
 
     function draw(){
 		//...
-        var cc = {};
-		self.data.forEach( function(d){
-			cc[d["Country"]] = color(d["Country"]);
-		} )
+  //       var cc = {};
+		// self.data.forEach( function(d){
+		// 	cc[d["Country"]] = color(d["Country"]);
+		// } )
 		//...
 		
         // Add grey background lines for context.

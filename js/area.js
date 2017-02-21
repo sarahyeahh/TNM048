@@ -71,9 +71,12 @@ function area(data) {
     var context = svg.append("g")
             .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
+    
     //Initializes the axis domains for the big chart
-    x.domain(d3.extent(data, function(d) {return format.parse(d.time);}));//Complete the code
-    y.domain([4, d3.max(data, function(d) {return d.mag;})]);//Complete the code
+    x.domain(d3.extent(data, function(d) {return format.parse(d.year);}));//Complete the code
+    y.domain([0, d3.max(data, function(d) {return d["imdbRating"];})]);//Complete the code
+    
+
     //Initializes the axis domains for the small chart
     x2.domain(x.domain());
     y2.domain(y.domain());
