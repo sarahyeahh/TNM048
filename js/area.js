@@ -11,7 +11,7 @@ function area(data) {
             height2 = areaDiv.height() - margin2.top - margin2.bottom;
 
     //Sets the data format
-    var format = d3.time.format.utc("%Y-%m-%dT%H:%M:%S.%LZ");//Complete the code
+    var format = d3.time.format.utc("%Y");//Complete the code
 
     //Sets the scales 
     var x = d3.time.scale().range([0, width]),
@@ -33,22 +33,22 @@ function area(data) {
     var area = d3.svg.area()
             .interpolate("step")
             .x(function (d) {
-                return x(format.parse(d.time));//Complete the code
+                return x(format.parse(d["year"]));//Complete the code
             })
             .y0(height)
             .y1(function (d) {
-                return y(d.mag);//Complete the code
+                return y(d["imdbRating"]);//Complete the code
             });
     
     //Creates the small chart -- CONTEXT
         var area2 = d3.svg.area()
             .interpolate("step")
             .x(function (d) {
-                return x2(format.parse(d.time));//Complete the code
+                return x2(format.parse(d["year"]));//Complete the code
             })
             .y0(height2)
             .y1(function (d) {
-                return y2(d.mag);//Complete the code
+                return y2(d["imdbRating"]);//Complete the code
             });
     
     //Assings the svg canvas to the area div
@@ -73,7 +73,7 @@ function area(data) {
 
     
     //Initializes the axis domains for the big chart
-    x.domain(d3.extent(data, function(d) {return format.parse(d.year);}));//Complete the code
+    x.domain(d3.extent(data, function(d) {return format.parse(d["year"]);}));//Complete the code
     y.domain([0, d3.max(data, function(d) {return d["imdbRating"];})]);//Complete the code
     
 

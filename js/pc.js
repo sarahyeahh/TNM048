@@ -73,10 +73,10 @@ function pc(){
 
         data.forEach(function(d) {
 
-        d.title = d.title;
-        d["year"] = +d["year"];
-        d.fn = +d.fn; // IMDB-code titles01/tt0012349
-        d["imdbRating"] = +d["imdbRating"];
+            d.title = d.title;
+            d["year"] = +d["year"];
+            d.fn = +d.fn; // IMDB-code titles01/tt0012349
+            d["imdbRating"] = +d["imdbRating"];
 
         });
 
@@ -89,12 +89,12 @@ function pc(){
 
         data.forEach(function(d) {
 
-        d.title = d.title;
-        d["year"] = +d["year"];
-        d.binary = d.binary; //Pass or fail
-        d["domgross"] = +d["domgross"];
-        d["intgross"] = +d["intgross"];
-        d["budget"] = +d["budget"];     
+            d.title = d.title;
+            d["year"] = +d["year"];
+            d.binary = d.binary; //Pass or fail
+            d["domgross"] = +d["domgross"];
+            d["intgross"] = +d["intgross"];
+            d["budget"] = +d["budget"];     
 
         });
 
