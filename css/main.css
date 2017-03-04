@@ -111,6 +111,7 @@ body {
     margin: 0 auto -60px;
     /* Pad bottom by footer height */
     padding: 0 0 60px;
+
 }
 
 /* Set the fixed height of the footer here */
@@ -284,8 +285,8 @@ body {
 
     pre,
     blockquote {
-        border: 1px solid #999;
-        page-break-inside: avoid;
+      /*  border: 1px solid #999;
+        page-break-inside: avoid;*/
     }
 
     thead {
