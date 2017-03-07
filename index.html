@@ -31,7 +31,6 @@
 
         <!-- Wrap all page content here -->
         <div id="wrap">
-
             <!-- Fixed navbar -->
             <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
                 <div class="container">
@@ -48,47 +47,45 @@
             </div>
 
             <!-- Begin page content -->
-
-
             <div class="container">
                 <!-- row of columns -->
 
                 <br><br><br>
 
-
-
-                <div class="row" style="width: 100%">
-                    <div class="col-md-6">
-                    Scatter Plot 
-
-             
-                        <div id="sp" style="height: 60vh">
-                        <!--div id="sp" style="height: 100vh; width: 120vh;"-->
-                        </div>
-
-           
-                    </div>
+                <div class="row" >
 
                     <div class="col-md-6">
-                        <div id="count"></div>
+                        <b>Scatter Plot 1 (year, gross)</b>              
+                        <div id="sp" style="height: 60vh"></div>  
+                        <div id="count" style="height: 60vh"></div>       
                     </div>
-                 
+
+
+
+                     <div class="col-md-6" >
+                      <b>Scatter Plot 2 (imdb-score, gross)</b>
+                        <div id="sp2" style="height: 60vh"></div>
+                        <div id="count2" style="height: 60vh"></div>
+                     </div>
+
                 </div>
 
-               <  <div class="row">
+                <div class="row">
+                </div>
+                    <!--br><br><br-->
+
+                <!--div class="row">
                     <br><br><br>
-                    Polar Coordinates
+                    Paralel Coordinates
                     <div class="col-md-12">
                         <div id="pc" style="height: 45vh"></div>
                     </div>
                 </div>
-
                 <br><br><br>
-
                 <div class="row">
-                Area
+                    Area
                     <div class="col-md-12" id ="area" style ="height: 45vh"></div> 
-                </div>   
+                </div-->   
 
             </div>
     
@@ -98,7 +95,6 @@
             <div class="container">
             </div>
         </div>
-
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
@@ -112,21 +108,18 @@
         <script src="https://d3js.org/d3-brush.v1.min.js"></script>
         <script src="https://d3js.org/d3-quadtree.v1.min.js"></script>
         <script src="https://d3js.org/d3-random.v1.min.js"></script>
-        <!--script src="https://d3js.org/d3-scale.v1.min.js"></script-->
+        <script src="http://d3js.org/queue.v1.min.js"></script>
         <script src="https://d3js.org/d3-axis.v1.min.js"></script>
 
+        <!--Version 4-->
         <script src="https://d3js.org/d3.v4.min.js"></script>
 
         <!--modules js-->
         <script src="js/pc.js"></script>
         <script src="js/sp.js"></script>
+        <script src="js/sp2.js"></script>
         <script src="js/area.js"></script>
         <script src="js/main.js"></script>
 
-
-         
-
-
-		
     </body>
 </html>

@@ -28,6 +28,11 @@ text {
 }*/.
 
 
+rect{
+  z-index: -100;
+}
+
+
 .axis path,
 .axis line {
     fill: none;
@@ -36,7 +41,7 @@ text {
 }
 
 .dot {
-    stroke: #000;
+    /*stroke: #000;*/
     cursor:pointer;
 }
 
