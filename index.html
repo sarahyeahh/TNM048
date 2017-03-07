@@ -22,6 +22,7 @@
         <link rel="stylesheet" href="css/sp.css">
         <link rel="stylesheet" href="css/area.css">
 
+
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -30,7 +31,6 @@
 
         <!-- Wrap all page content here -->
         <div id="wrap">
-
             <!-- Fixed navbar -->
             <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
                 <div class="container">
@@ -47,36 +47,47 @@
             </div>
 
             <!-- Begin page content -->
-
-
             <div class="container">
                 <!-- row of columns -->
 
                 <br><br><br>
 
-                <div class="row">
+                <div class="row" >
+
                     <div class="col-md-6">
-                    Scatter Plot 
-                        <div id="sp" style="height: 45vh;">
-                        </div>
+                        <b>Scatter Plot 1 (year, gross)</b>              
+                        <div id="sp" style="height: 60vh"></div>  
+                        <div id="count" style="height: 60vh"></div>       
                     </div>
-                 
+
+
+
+                     <div class="col-md-6" >
+                      <b>Scatter Plot 2 (imdb-score, gross)</b>
+                        <div id="sp2" style="height: 60vh"></div>
+                        <div id="count2" style="height: 60vh"></div>
+                     </div>
+
                 </div>
+
+                <div class="row">
+                </div>
+                    <br><br><br>
 
                 <div class="row">
                     <br><br><br>
-                    Polar Coordinates
-                    <div class="col-md-6">
+                    Paralel Coordinates
+                    <div class="col-md-12">
                         <div id="pc" style="height: 45vh"></div>
                     </div>
                 </div>
-
                 <br><br><br>
-
                 <div class="row">
+
                 Area
-                    <div class="col-md-12" id ="area" style ="height: 55vh"></div> 
+                    <div class="col-md-8" id ="area" style ="height: 55vh"></div> 
                 </div>   
+
 
             </div>
     
@@ -96,6 +107,14 @@
         <script src="js/vendor/topojson.v1.min.js"></script>
         <script src="js/vendor/underscore-min.js"></script>
         <script src="js/vendor/colorbrewer.js"></script>
+        <script src="https://d3js.org/d3-brush.v1.min.js"></script>
+        <script src="https://d3js.org/d3-quadtree.v1.min.js"></script>
+        <script src="https://d3js.org/d3-random.v1.min.js"></script>
+        <script src="http://d3js.org/queue.v1.min.js"></script>
+        <script src="https://d3js.org/d3-axis.v1.min.js"></script>
+
+        <!--Version 4-->
+        <script src="https://d3js.org/d3.v4.min.js"></script>
 
         <script src="http://d3js.org/d3.v4.min.js"></script>
         <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
@@ -103,8 +122,9 @@
         <!--modules js-->
         <script src="js/pc.js"></script>
         <script src="js/sp.js"></script>
+        <script src="js/sp2.js"></script>
         <script src="js/area.js"></script>
         <script src="js/main.js"></script>
-		
+
     </body>
 </html>

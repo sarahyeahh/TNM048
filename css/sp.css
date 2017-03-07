@@ -19,10 +19,20 @@ line#bestfit {
     shape-rendering: crispEdges;
 }
 
+#sp > svg:nth-child(1)
+
+
 text {
     font-size: 12px;
     fill: #888;
-}*/
+}*/.
+
+
+rect{
+  z-index: -100;
+}
+
+
 .axis path,
 .axis line {
     fill: none;
@@ -31,7 +41,7 @@ text {
 }
 
 .dot {
-    stroke: #000;
+    /*stroke: #000;*/
     cursor:pointer;
 }
 
@@ -41,7 +51,22 @@ text {
 
 .tooltip {
   position: absolute;
-  width: 130px;
-  height: 28px;
+  display: inline-block;
+ /* width: 130px;*/
+  height: 50px;
   pointer-events: none;
+ 
+  /*background-color: white; */
+}
+
+
+path {
+  fill: orange;
+}
+
+
+.brush .extent {
+  stroke: #fff;
+  fill-opacity: .125;
+  shape-rendering: crispEdges;
 }
