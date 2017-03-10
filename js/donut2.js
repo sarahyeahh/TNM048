@@ -80,6 +80,8 @@ function donut2(bec_data, imdb_data) {
                 }
             });
         }
+
+
             
     };
 
@@ -90,10 +92,17 @@ function donut2(bec_data, imdb_data) {
         specific[0] = {movies: 0};
         specific[1] = {movies: 0};
         for (var i = 0; i < bechdel.length; i++) {
-            if(bechdel[i].genre == genre || genre == 0){
+            if(bechdel[i].genre == genre || genre == "tested"){
                 specific[0].movies += bechdel[i].passed;
                 specific[1].movies += bechdel[i].failed; 
-            }      
+            }   
+
+			total = specific[0].movies+ specific[1].movies;
+
+			passed_percent = Math.floor((specific[0].movies/ total) * 100);
+
+ 			document.getElementById("genre").innerHTML = "Pass/fail of all of the " + genre + " movies."; 
+            
         };
         
     }
@@ -102,11 +111,13 @@ function donut2(bec_data, imdb_data) {
         .sort(null)
         .value(function(d) { return d.movies; });
 
-    var path = d3.arc()
-        .outerRadius(radius - 10)
-        .innerRadius(radius - 2*radius/3)
+  var path = d3.arc()
+        .outerRadius(radius + 10)
+        .innerRadius(radius -30)
         .padAngle(0.03)
-        //.cornerRadius(8);
+        .cornerRadius(2);
+
+
 
     this.draw = function(){
         svg.selectAll(".arc2").remove();
@@ -116,11 +127,31 @@ function donut2(bec_data, imdb_data) {
             .attr("class", "arc2");
 
         arc.append("path")
-            .attr("d", path)
-            .style("fill", function(d,i) { if (i != 1){ return color(5)} else{return color(13)} })
+           .attr("d", path)
+           .style("fill", function(d,i) { if (i != 1){ return color(5)} else{return color(13)} })
+
+
+
+        arc.append("text")
+	    .attr("transform", function(d) { return "translate(" + -35 + "," + 0 + ")"; })
+	    .attr("dy", "0.35em")
+	    .attr("font-size", 40)
+	    .text(passed_percent + "%");
+
+
+
+        arc.append("text")
+	    .attr("transform", function(d) { return "translate(" + -20 + "," + 25 + ")"; })
+	    .attr("dy", "0.35em")
+	    .attr("font-size", 12)
+	    .text("passed");
+
+
+	   
+
     };
 
-    this.uppdate_genre(0);
+    this.uppdate_genre("tested");
     this.draw();
 
 }
