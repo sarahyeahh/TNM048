@@ -147,7 +147,7 @@ function donut(bec_data, imdb_data) {
 			    	draw()
 		    	}
 		    	else {
-		    		donut2.uppdate_genre(0);
+		    		donut2.uppdate_genre("tested");
 			    	donut2.draw();
 			    	sp2.draw(0);
 			    	area1.draw(0);
