@@ -262,8 +262,20 @@ function sp2(bec_data, imdb_data){
             //.style("fill", function(d) { if (d.binary != "PASS"){ return "red"} else{return "green"}})
             .style("fill", function(d,i) {return color_clusters(i);}) //  color_bec(d.movie_title) return color_duration(d.duration), return cc[d.country]
             .style("opacity",0.3)
+            
+
+        scatter.selectAll(".dot")
+            .data(genre_data)
+            .enter().append("circle")
+            .attr("class", "dot")
+            //Define the x and y coordinate data values for the dots
+            .attr("r", 3)
+            .attr("cx", function(d) { return x(d[varXaxis]);})
+            .attr("cy", function(d) {return y(d[varYaxis]);})
+            //.style("fill", function(d) { if (d.binary != "PASS"){ return "red"} else{return "green"}})
+            .style("fill", function(d) {return color_bec(d.movie_title);})
             //tooltip
-            /*.on("mousemove", function(d) {
+            .on("mousemove", function(d) {
                 tooltip.transition()
                    .duration(20)
                    .style("opacity", 0.9);
@@ -281,18 +293,7 @@ function sp2(bec_data, imdb_data){
               //  sp1.selectDot(array);
               //  pc1.selectLine(array);
                 
-            });*/
-
-        scatter.selectAll(".dot")
-            .data(genre_data)
-            .enter().append("circle")
-            .attr("class", "dot")
-            //Define the x and y coordinate data values for the dots
-            .attr("r", 3)
-            .attr("cx", function(d) { return x(d[varXaxis]);})
-            .attr("cy", function(d) {return y(d[varYaxis]);})
-            //.style("fill", function(d) { if (d.binary != "PASS"){ return "red"} else{return "green"}})
-            .style("fill", function(d) {return color_bec(d.movie_title);})
+            });
 
     }
     this.draw(0);

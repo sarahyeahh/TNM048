@@ -238,7 +238,7 @@ function area(data, imdb_data) {
             .attr("y", y(yMax))
             .attr("width", rect_width2)
             .attr("height",height)
-            /*.on("mouseover", function(d) {      
+            .on("mouseover", function(d) {      
                 div.transition()        
                     .duration(200)      
                     .style("opacity", .9);      
@@ -250,7 +250,7 @@ function area(data, imdb_data) {
                 div.transition()        
                     .duration(500)      
                     .style("opacity", 0);   
-            });*/
+            });
 
         movies.attr("clip-path", "url(#clip)");
         movies.selectAll("passed_bar")
@@ -263,7 +263,7 @@ function area(data, imdb_data) {
             .attr("y", function(d) { return y(d.passed); })
             .attr("width", rect_width)
             .attr("height",function(d) { return height - y(d.passed); })
-            /*.on("mouseover", function(d) {      
+            .on("mouseover", function(d) {      
                 div.transition()        
                     .duration(200)      
                     .style("opacity", .9);      
@@ -275,7 +275,7 @@ function area(data, imdb_data) {
                 div.transition()        
                     .duration(500)      
                     .style("opacity", 0);   
-            }); */
+            }); 
             
 
         movies.attr("clip-path", "url(#clip)");
@@ -289,7 +289,7 @@ function area(data, imdb_data) {
             .attr("y", function(d) { return y(d.failed); })
             .attr("width", rect_width)
             .attr("height",function(d) { return y(0) - y(d.failed); })
-            /*.on("mouseover", function(d) {      
+            .on("mouseover", function(d) {      
                 div.transition()        
                     .duration(200)      
                     .style("opacity", .9);      
@@ -301,7 +301,7 @@ function area(data, imdb_data) {
                 div.transition()        
                     .duration(500)      
                     .style("opacity", 0);   
-            });*/
+            });
         
         
         
