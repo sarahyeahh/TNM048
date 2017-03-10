@@ -1,6 +1,6 @@
 //Måste ha d3 v4 för att fungera!
 
-function sp(){
+function sp(data){
 
   var self = this;
 
@@ -13,7 +13,10 @@ function sp(){
     var varXaxis = "";
     var varYaxis = "";
 
-    var color = d3.scaleOrdinal(d3.schemeCategory20); //new v4 
+    var color = d3.scaleOrdinal(d3.schemeCategory20b); //new v4 
+    for (var i = 0; i < 20; i++) {
+        color(i);
+    };
 
     //initialize tooltip
     var tooltip = d3.select("body").append("div")
@@ -53,22 +56,67 @@ function sp(){
              .attr("clip-path", "url(#clip)");
 
     //Load data
-    d3.csv("data/movies.csv", function(error, data) {
+    /*d3.csv("data/movies.csv", function(error, data) {
         self.data = data;
     
-        //define the domain of the scatter plot axes
-        varXaxis = "year";
-        varYaxis = "domgross";
+         
+        
+
+    });*/
+    //define the domain of the scatter plot axes
+    varXaxis = "budget";
+    varYaxis = "domgross";
       //  max = 3000000000; 
-        max = 800000000;
+    //max = 800000000;
+    max = d3.max(data, function(d){return d[varYaxis];});
 
-        x.domain(d3.extent(data, function(d){return d[varXaxis];}));
-        y.domain([0, max]); 
+    x.domain(d3.extent(data, function(d){return d[varXaxis];}));
+    y.domain([0, max]);
+    //y.domain([0, max]); 
 
-        draw();
-        countPass();
+    var pass_rate = [0,0,0,0,0,0,0,0,0,0];
+    var passed = [0,0,0,0,0,0,0,0,0,0];
+    var failed = [0,0,0,0,0,0,0,0,0,0];
+    var cluster_size = 1000000; //d3.max(data, function(d){return d[varXaxis];})/10;
+    for (var i = 0; i < data.length; i++) {
+      var slot = Math.floor(data[i].budget / cluster_size);
+      if (data[i].binary == "PASS") {
+        passed[slot] += 1;
+      }
+      else {
+        failed[slot] += 1;
+      }
+    };
+      
+    console.log(passed);
+    for (var i = 0; i < pass_rate.length; i++) {
+      if((failed[i]+passed[i]) > 0) {
+        pass_rate[i] = passed[i] / (passed[i] + failed[i]);
+      }
+    };
+    console.log(pass_rate);
 
-    });
+    draw();
+    countPass();
+
+    function color_clusters(slot) {
+      var rate = pass_rate[slot];
+        if (rate > 0.75) { 
+            return color(4);
+        }
+        else if (rate > 0.55) {
+            return color(5);
+        }
+        else if (rate < 0.25) {
+            return color(14);
+        }
+        else if (rate < 0.45) {
+            return color(15);
+        }
+        else {
+            return color(10);
+        }
+    }
 
     function draw(){
 
@@ -99,9 +147,24 @@ function sp(){
                 .style("font-size","10px")
                 .text(varYaxis);
 
+
+        scatter.selectAll(".dot2")
+            .data(pass_rate)
+            .enter().append("rect")
+            .attr("class", "dot2")
+            //Define the x and y coordinate data values for the dots
+            //.attr("r", 20)
+            .attr("x", function(d,i) { return x(i*cluster_size);})
+            .attr("y", function(d) {return y(max);})
+            .attr("height", height)
+            .attr("width", x(cluster_size)-x(0))
+            //.style("fill", function(d) { if (d.binary != "PASS"){ return "red"} else{return "green"}})
+            .style("fill", function(d,i) {return color_clusters(i);}) //  color_bec(d.movie_title) return color_duration(d.duration), return cc[d.country]
+            .style("opacity",0.5)
+
         // // Add the scatter dots.
         scatter.selectAll(".dot")
-            .data(self.data)
+            .data(data)
             .enter().append("circle")
             .attr("class", "dot")
             //Define the x and y coordinate data values for the dots
@@ -115,12 +178,12 @@ function sp(){
                 } 
                 return y(d[varYaxis]);
             })
-            .style("fill", function(d) { if (d.binary != "PASS"){ return "red"} else{return "green"}})
+            .style("fill", function(d) { if (d.binary != "PASS"){ return color(13)} else{return color(5)}})
             //tooltip
-            .on("mousemove", function(d) {
+            /*.on("mousemove", function(d) {
                 tooltip.transition()
                    .duration(20)
-                   .style("opacity", 0.9);
+                   .style("opacity", 0.5);
                 tooltip.html(d.title + "<br/> Income: "  + d[varYaxis] + "<br/> Year: " + d[varXaxis])
                    .style("left", (d3.event.pageX + 5) + "px")
                    .style("top", (d3.event.pageY - 28) + "px");   
@@ -133,7 +196,7 @@ function sp(){
                 array[d.title] = d.title;
               //  sp1.selectDot(array);
               //  pc1.selectLine(array);  
-            });
+            });*/
 
         scatter.append("g")
             .attr("class", "brush")
@@ -148,7 +211,7 @@ function sp(){
 
             if (!s) {
                 if (!idleTimeout) return idleTimeout = setTimeout(idled, idleDelay);
-                  x.domain(d3.extent(self.data, function(d){return d[varXaxis];}));
+                  x.domain(d3.extent(data, function(d){return d[varXaxis];}));
                   y.domain([0, max]); 
             } else {
                 
@@ -183,7 +246,7 @@ function sp(){
         var fail = 0; 
         var all = 0; 
 
-        self.data.forEach( function(d){
+        data.forEach( function(d){
              
              if(d.binary== "PASS"){  
                 pass++; 

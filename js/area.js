@@ -1,5 +1,5 @@
 
-function area() {
+function area(data, imdb_data) {
     var colors = d3.scaleOrdinal(d3.schemeCategory20b);
     var areaDiv = $("#area");
 
@@ -11,7 +11,7 @@ function area() {
     width = 960 - margin.left - margin.right,
     height = 300 - margin.top - margin.bottom;*/
 
-    var margin = {top: 100, right: 40, bottom: 100, left: 40},
+    var margin = {top: 20, right: 20, bottom: 30, left: 90},
         width = areaDiv.width() - margin.left - margin.right,
         height = areaDiv.height() - margin.top - margin.bottom;
 
@@ -20,16 +20,6 @@ function area() {
     var x = d3.scaleTime().range([0, width]),
         y = d3.scaleLinear().range([height, 0]);
 
-    // gridlines in x axis function
-    function make_x_gridlines() {       
-        return d3.axisBottom(x)
-            .ticks(5)
-    }
-    // gridlines in y axis function
-    function make_y_gridlines() {       
-        return d3.axisLeft(y)
-            .ticks(5)
-    }
 
     var xAxis = d3.axisBottom(x);//.tickSize(0),
         yAxis = d3.axisLeft(y);//.tickSize(0);
@@ -52,7 +42,6 @@ function area() {
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom);
 
-
     svg.append("defs").append("clipPath")
         .attr("id", "clip")
         .append("rect")
@@ -63,46 +52,42 @@ function area() {
         .attr("class", "barChart")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+    var genre_data = data;
     // Data Load from CSV
-    d3.csv("data/movies.csv", function(error, data) {
-        if(error) throw error;
-        /*data.forEach(function(d) {
-            d.year = parseTime(d.year);
-        });*/
+    var bechdel = [];
+    var years = [];
 
-
-        var bechdel = [];
-        var years = [];
-
-        for (var i = 0; i < data.length; i++) {
-            if (years.indexOf(data[i]["year"]) < 0) {
+    function update_bars(){
+        bechdel = [];
+        years = [];
+        for (var i = 0; i < genre_data.length; i++) {
+            if (years.indexOf(genre_data[i]["year"]) < 0) {
                     var newYear = {
-                        year : data[i]["year"],
+                        year : genre_data[i]["year"],
                         passed : 0,
                         failed : 0
                     };
 
                     bechdel.push(newYear);
-                    years.push(data[i]["year"]);
+                    years.push(genre_data[i]["year"]);
                 }
             if (data[i]["binary"] == "PASS") {
                 bechdel.forEach( function(d) {
-                    if (d["year"] == data[i]["year"]) {
+                    if (d["year"] == genre_data[i]["year"]) {
                         d["passed"] += 1;
                     }
                 });
             }
             else {
                 bechdel.forEach( function(d) {
-                    if (d["year"] == data[i]["year"]) {
+                    if (d["year"] == genre_data[i]["year"]) {
                         d["failed"] += 1;
                     }
                 });
-            }
-            
+            }    
         };
+    }
 
-        console.log(bechdel);
 
 
         /*passed_films.forEach(function(d) {
@@ -111,50 +96,119 @@ function area() {
         failed_films.forEach(function(d) {
             d.year = parseTime(d.year);
         }); */
+    update_bars();
+    var xMin = d3.min(bechdel, function(d) { return parseTime(d.year); });
+    var xMax = d3.max(bechdel, function(d) { return parseTime(d.year); });
 
-        var xMin = d3.min(bechdel, function(d) { return parseTime(d.year); });
-        var xMax = d3.max(bechdel, function(d) { return parseTime(d.year); });
+    var yMax = Math.max(20, d3.max(bechdel, function(d) { return d.passed; }));
+    yMax = Math.max(yMax, d3.max(bechdel, function(d) { return d.failed; }));
 
-        var yMax = Math.max(20, d3.max(bechdel, function(d) { return d.passed; }));
-        yMax = Math.max(yMax, d3.max(bechdel, function(d) { return d.failed; }));
+    x.domain([d3.timeYear.offset(xMin,-1), d3.timeYear.offset(xMax,1)]);
+    y.domain([0, yMax]);
 
-        x.domain([d3.timeYear.offset(xMin,-1), d3.timeYear.offset(xMax,1)]);
-        y.domain([0, yMax]);
+    
+    function update_data(genre){
+      if (genre != 0) {
+        genre_data = [];
+        for (var i = 0; i < imdb_data.length; i++) {
+
+            for (var j = 0; j < data.length; j++) {
+                if (imdb_data[i].movie_title.includes(data[j]["title"])) {
+                    if (genre == "Horror") {
+                        if (imdb_data[i].genres.includes("Horror")) {
+                            genre_data.push(data[j]);
+                        }
+                    }
+                    else if (genre == "Romance"){
+                        if (imdb_data[i].genres.includes("Horror")) {}
+                        else if (imdb_data[i].genres.includes("Romance")) {
+                            genre_data.push(data[j]);
+                        }
+                    }
+                    else if (genre == "Drama"){
+                        if (imdb_data[i].genres.includes("Horror")) {}
+                        else if (imdb_data[i].genres.includes("Romance")) {}
+                        else if (imdb_data[i].genres.includes("Drama")) {
+                            genre_data.push(data[j]);
+                        }
+                    }
+                    else if (genre == "Comedy"){
+                        if (imdb_data[i].genres.includes("Horror")) {}
+                        else if (imdb_data[i].genres.includes("Romance")) {}
+                        else if (imdb_data[i].genres.includes("Drama")) {}
+                        else if (imdb_data[i].genres.includes("Comedy")) {
+                            genre_data.push(data[j]);
+                        }
+                    }
+                    else if (genre == "Action"){
+                        if (imdb_data[i].genres.includes("Horror")) {}
+                        else if (imdb_data[i].genres.includes("Romance")) {}
+                        else if (imdb_data[i].genres.includes("Drama")) {}
+                        else if (imdb_data[i].genres.includes("Comedy")) {}
+                        else if (imdb_data[i].genres.includes("Action")) {
+                            genre_data.push(data[j]);
+                        }
+                    }
+                    else{
+                        if (imdb_data[i].genres.includes("Horror")) {}
+                        else if (imdb_data[i].genres.includes("Romance")) {}
+                        else if (imdb_data[i].genres.includes("Drama")) {}
+                        else if (imdb_data[i].genres.includes("Comedy")) {}
+                        else if (imdb_data[i].genres.includes("Action")) {}
+                        else {genre_data.push(data[j]);}
+                    }
 
 
-        // add the X gridlines
-        /*svg.append("g")           
-            .attr("class", "grid")
-            .attr("transform", "translate(0," + height + ")")
-            .call(make_x_gridlines()
-                .tickSize(-height)
-                .tickFormat("")
-            )*/
-        /*svg.append("g")           
-            .attr("class", "grid")
-            //.attr("transform", "translate(100," + height + ")")
-            .call(xAxis.ticks(5).tickSize(-height).tickFormat(""))*/
-        /*// add the Y gridlines
-        svg.append("g")           
-            .attr("class", "grid")
-            .call(make_y_gridlines()
-                .tickSize(-width)
-                .tickFormat("")
-            )*/
+                };
+            };
+          
+        };
+      }
+      else {
+        genre_data = data;
+      }
+      
+    }
 
         
         /*barChart.append("g")
             .attr("class", "stuff")
             .call(yAxis.ticks(5).tickSize(-width).tickFormat(""));*/
-        
+    
+    var movies = barChart.append("g");
+    // Summary Stats
+    barChart.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0 - margin.left/2)
+        .attr("x",0 - (height / 2))
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .text("Movies");
+
+
+    svg.append("text")
+        .attr("transform",
+              "translate(" + ((width + margin.right + margin.left)/2) + " ," +
+                             (height + margin.top + margin.bottom) + ")")
+        .style("text-anchor", "middle")
+        .text("Year");
+
+    this.draw = function(genre){
 
         var rect_width = width/88 - 2;
         var rect_width2 = width/44;
         var rect_height = y(yMax);
 
+        svg.selectAll(".movie_bar").remove();
+        svg.selectAll(".passed_bar").remove();
+        svg.selectAll(".failed_bar").remove();
 
+        update_data(genre);
+        console.log(genre_data);
+        update_bars();
+        console.log(bechdel);
 
-        var movies = barChart.append("g");
+        
 
         movies.attr("clip-path", "url(#clip)");
         movies.selectAll("movie_bar")
@@ -166,25 +220,25 @@ function area() {
                 if (rate > 0.75) { 
                     return colors(4);
                 }
-                else if (rate > 0.5) {
+                else if (rate > 0.55) {
                     return colors(5);
                 }
                 else if (rate < 0.25) {
                     return colors(14);
                 }
-                else if (rate < 0.5) {
+                else if (rate < 0.45) {
                     return colors(15);
                 }
                 else {
                     return colors(10);
                 }
             })
-            .attr("opacity", 0.1)
+            .attr("opacity", 0.3)
             .attr("x", function(d) { return x(parseTime(d.year))-rect_width2/2; })
             .attr("y", y(yMax))
             .attr("width", rect_width2)
             .attr("height",height)
-            .on("mouseover", function(d) {      
+            /*.on("mouseover", function(d) {      
                 div.transition()        
                     .duration(200)      
                     .style("opacity", .9);      
@@ -196,7 +250,7 @@ function area() {
                 div.transition()        
                     .duration(500)      
                     .style("opacity", 0);   
-            });
+            });*/
 
         movies.attr("clip-path", "url(#clip)");
         movies.selectAll("passed_bar")
@@ -209,7 +263,7 @@ function area() {
             .attr("y", function(d) { return y(d.passed); })
             .attr("width", rect_width)
             .attr("height",function(d) { return height - y(d.passed); })
-            .on("mouseover", function(d) {      
+            /*.on("mouseover", function(d) {      
                 div.transition()        
                     .duration(200)      
                     .style("opacity", .9);      
@@ -221,7 +275,7 @@ function area() {
                 div.transition()        
                     .duration(500)      
                     .style("opacity", 0);   
-            });
+            }); */
             
 
         movies.attr("clip-path", "url(#clip)");
@@ -235,7 +289,7 @@ function area() {
             .attr("y", function(d) { return y(d.failed); })
             .attr("width", rect_width)
             .attr("height",function(d) { return y(0) - y(d.failed); })
-            .on("mouseover", function(d) {      
+            /*.on("mouseover", function(d) {      
                 div.transition()        
                     .duration(200)      
                     .style("opacity", .9);      
@@ -247,7 +301,7 @@ function area() {
                 div.transition()        
                     .duration(500)      
                     .style("opacity", 0);   
-            });
+            });*/
         
         
         
@@ -264,58 +318,9 @@ function area() {
 
         
 
-        /*// Summary Stats
-        barChart.append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("y", 0 - margin.left)
-            .attr("x",0 - (height / 2))
-            .attr("dy", "1em")
-            .style("text-anchor", "middle")
-            .text("Movies");
-
-        barChart.append("text")
-            .attr("x", width - margin.right)
-            .attr("dy", "1em")
-            .attr("text-anchor", "end")
-            .text("Passed: " + 10);
-
-        svg.append("text")
-            .attr("transform",
-                  "translate(" + ((width + margin.right + margin.left)/2) + " ," +
-                                 (height + margin.top + margin.bottom) + ")")
-            .style("text-anchor", "middle")
-            .text("Year");
-
-        svg.append("rect")
-            .attr("class", "zoom")
-            .attr("width", width)
-            .attr("height", height)
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-            .call(zoom); */
-
-             /* // append scatter plot to brush chart area
-               var movies = context.append("g");
-                   movies.attr("clip-path", "url(#clip)");
-                   movies.selectAll("movie_bar")
-                      .data(data)
-                      .enter().append("circle")
-                      .attr('class', 'movie_barContext')
-                      .attr("r",3)
-                      .style("opacity", .6)
-                      .attr("cx", function(d) { return x2(d.sent_time); })
-                      .attr("cy", function(d) { return y2(d.movies_sent_in_day); })
-
-              context.append("g")
-                    .attr("class", "axis x-axis")
-                    .attr("transform", "translate(0," + height2 + ")")
-                    .call(xAxis2);
-
-              context.append("g")
-                    .attr("class", "brush")
-                    .call(brush)
-                    .call(brush.move, x.range());*/
-
-      });
+        
+    }
+    this.draw(0);
 }
 
 

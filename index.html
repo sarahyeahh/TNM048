@@ -52,51 +52,53 @@
 
                 <br><br><br>
 
-                <div class="row" >
+                
+                
+                
 
-                    <div class="col-md-6">
-                        <b>Scatter Plot 1 (year, gross)</b>              
-                        <div id="sp" style="height: 60vh"></div>  
-                        <div id="count" style="height: 60vh"></div>       
-                    </div>
-
-
-
-                     <div class="col-md-6" >
-                      <b>Scatter Plot 2 (imdb-score, gross)</b>
-                        <div id="sp2" style="height: 60vh"></div>
-                        <div id="count2" style="height: 60vh"></div>
-                     </div>
-
-                </div>
-
-                <div class="row">
-                </div>
-                    <br><br><br>
-
-                <div class="row">
+                <!--<div class="row">
                     <br><br><br>
                     Paralel Coordinates
                     <div class="col-md-12">
                         <div id="pc" style="height: 45vh"></div>
                     </div>
-                </div>
-                <br><br><br>
+                </div> 
+                <br><br><br> -->
+                  
                 <div class="row">
+                    <div class="col-md-3">
+                        <b>Donut genres</b>              
+                        <div id="donut1" style="height: 40vh"></div>  
+                    </div> 
+                    <div class="col-md-9">
+                        <b>Bechdel result, passed/failed</b>
+                        <div id ="area" style ="height: 40vh"></div> 
+                    </div>
+                    
+                </div> 
+                <div class="row" >
 
-                Area
-                    <div class="col-md-8" id ="area" style ="height: 55vh"></div> 
-                </div>   
+                    
+                    <div class="col-md-3">
+                        <b>Donut pass/fail</b>              
+                        <div id="donut2" style="height: 40vh"></div>  
+                    </div> 
+
+                     <div class="col-md-9" >
+                      <b>Scatter Plot 2 (imdb-score, gross)</b>
+                        <div id="sp2" style="height: 40vh"></div>
+                     </div> 
+
+                </div> 
+
+                
 
 
             </div>
     
         </div>
 
-        <div id="footer">
-            <div class="container">
-            </div>
-        </div>
+        
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
@@ -124,6 +126,8 @@
         <script src="js/sp.js"></script>
         <script src="js/sp2.js"></script>
         <script src="js/area.js"></script>
+        <script src="js/donut.js"></script>
+        <script src="js/donut2.js"></script>
         <script src="js/main.js"></script>
 
     </body>
