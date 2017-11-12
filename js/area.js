@@ -204,9 +204,9 @@ function area(data, imdb_data) {
         svg.selectAll(".failed_bar").remove();
 
         update_data(genre);
-        console.log(genre_data);
+      //  console.log(genre_data);
         update_bars();
-        console.log(bechdel);
+      //  console.log(bechdel);
 
         
 

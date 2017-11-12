@@ -26,7 +26,6 @@ function donut(bec_data, imdb_data) {
               .attr("height", height + margin.top + margin.bottom);
               
 	var g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-	    //g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	var bechdel = [];
     var genres = [];
@@ -110,8 +109,7 @@ function donut(bec_data, imdb_data) {
 	var path = d3.arc()
 	    .outerRadius(radius )
 	    .innerRadius(radius - 30)
-	    .padAngle(0.03)
-        //.cornerRadius(8);
+	    .padAngle(0.03);
 
 	var label = d3.arc()
 	    .outerRadius(radius +2 )
@@ -134,15 +132,20 @@ function donut(bec_data, imdb_data) {
 		    .style("fill", function(d,i) { return color_bec(bechdel[i]); })
 		    .style("stroke", "gray")
 		    .style("opacity", function(d) { if(chosen == d.data.genre) {return 1.0} else{return 0.4 }})
+            .on("mouseover", function(){
+                d3.select(this).style("cursor", "pointer"); 
+            })
 		    .on("click", function(d) {
 		    	if (click == 0) {
+                    console.log("Loading data...");
 		    		donut2.uppdate_genre(d.data.genre);
 			    	donut2.draw();
 			    	sp2.draw(d.data.genre);
 			    	area1.draw(d.data.genre);
 			    	click++;
 			    	chosen = d.data.genre;
-			    	draw()
+			    	draw();
+                    console.log("Done!");                    
 		    	}
 		    	else {
 		    		donut2.uppdate_genre("tested");
@@ -152,12 +155,9 @@ function donut(bec_data, imdb_data) {
 			    	chosen = 0;
 			    	draw();
 			    	click--;
-		    	}
-
-		    	
+		    	}		    	
 		    })
 	}
-
 
 	var text = arc.append("text")
 	    .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
@@ -254,5 +254,4 @@ function donut(bec_data, imdb_data) {
       .style("fill", "none")
       .style("stroke", "black")
       .style("stroke-width", "1px");
-	
 }
